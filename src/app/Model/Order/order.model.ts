@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document ,model} from 'mongoose';
 import { IOrder } from './order.interface';
 
 // Define the Mongoose schema
@@ -35,5 +35,5 @@ const OrderSchema: Schema = new Schema(
     timestamps: true,
   },
 );
-
-export default mongoose.model<IOrder & Document>('Order', OrderSchema);
+const OrderData = model<IOrder & Document>('Order', OrderSchema);
+export default OrderData

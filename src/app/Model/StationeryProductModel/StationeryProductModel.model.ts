@@ -2,23 +2,44 @@ import { Schema, model } from 'mongoose';
 import { StationeryProduct } from './StationeryProductModel.interface';
 const stationeryProductSchema = new Schema<StationeryProduct>(
   {
-    name: { type: String, required: true },
-    brand: { type: String, required: true },
-    price: { type: Number, required: true },
+    name: { 
+      type: String, 
+      required: [true, "Product name is required"], 
+      trim: true, 
+      minlength: [3, "Product name must be at least 3 characters long"] 
+    },
+    brand: { 
+      type: String, 
+      required: [true, "Brand is required"], 
+      trim: true 
+    },
+    price: { 
+      type: Number, 
+      required: [true, "Price is required"], 
+      min: [0, "Price must be a positive number"] 
+    },
     category: {
       type: String,
-      enum: [
-        'Writing',
-        'Office Supplies',
-        'Art Supplies',
-        'Educational',
-        'Technology',
-      ],
-      required: true,
+      enum: {
+        values: ['Writing', 'Office Supplies', 'Art Supplies', 'Educational', 'Technology'],
+        message: "{VALUE} is not a valid category",
+      },
+      required: [true, "Category is required"],
     },
-    description: { type: String, required: true },
-    quantity: { type: Number, required: true },
-    inStock: { type: Boolean, required: true },
+    description: { 
+      type: String, 
+      required: [true, "Description is required"], 
+      minlength: [10, "Description must be at least 10 characters long"] 
+    },
+    quantity: { 
+      type: Number, 
+      required: [true, "Quantity is required"], 
+      min: [0, "Quantity must be a positive number"] 
+    },
+    inStock: { 
+      type: Boolean, 
+      default: true 
+    },
   },
   { timestamps: true },
 );

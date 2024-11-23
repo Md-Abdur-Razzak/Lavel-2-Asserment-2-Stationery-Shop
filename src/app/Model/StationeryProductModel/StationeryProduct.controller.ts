@@ -10,8 +10,12 @@ const stonaryCreatController = async (req: Request, res: Response) => {
       success: true,
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error:any) {
+    res.status(404).json({
+      message: "Validation failed",
+      success: false,
+      error:error.errors 
+    })
   }
 };
 
@@ -36,8 +40,12 @@ const getAllStanaryProduct = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error:any) {
+    res.status(404).json({
+      message: "Validation failed",
+      success: false,
+      error:error.errors 
+    })
   }
 };
 
@@ -51,8 +59,12 @@ const singleProductController = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error:any) {
+    res.status(404).json({
+      message: "Validation failed",
+      success: false,
+      error:error.errors 
+    })
   }
 };
 
@@ -91,8 +103,12 @@ const deletProductControllers = async (req: Request, res: Response) => {
       status: true,
       data: findResult ? findResult : {},
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error:any) {
+    res.status(404).json({
+      message: "Validation failed",
+      success: false,
+      error:error.errors 
+    })
   }
 };
 
