@@ -51,8 +51,7 @@
 ```bash
 npm i node mongodb mongoose express typescript
 ```
- <h3>setup .eslintrc
-</h3>
+
 
 ## API Endpoints
 
@@ -67,3 +66,11 @@ npm i node mongodb mongoose express typescript
 
 - **Create an Order**: `POST /api/orders`
 - **Calculate Revenue**: `GET /api/orders/revenue`
+
+# Technologies Used
+
+- **Node.js**
+- **Express.js**
+- **MongoDB**
+- **Mongoose**
+- **TypeScript**
