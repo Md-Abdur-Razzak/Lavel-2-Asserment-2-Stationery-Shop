@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import stationeryProductData from './StationeryProductModel.model';
+import config from '../../config';
 
+//---------Stonary Producr creat a Controller-------------
 const stonaryCreatController = async (req: Request, res: Response) => {
   try {
     const bodyData = req.body;
@@ -11,18 +13,22 @@ const stonaryCreatController = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error:any) {
-    res.status(404).json({
-      message: "Validation failed",
+    res.status(400).json({
+      message: "ValidationError",
       success: false,
-      error:error.errors 
+      error:error.errors ,
+      stack:config.node_env === 'development' ? error.stack : undefined,
+
     })
   }
 };
 
+//--------Get All Data Stonary Product and use search Qurey-----
 const getAllStanaryProduct = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
     let filter = {};
+    //------product Quray-------
     if (searchTerm) {
       filter = {
         $or: [
@@ -32,8 +38,7 @@ const getAllStanaryProduct = async (req: Request, res: Response) => {
         ],
       };
     }
-    console.log(filter);
-
+   //------find a product-------
     const result = await stationeryProductData.find(filter);
     res.status(200).json({
       message: 'Products retrieved successfully',
@@ -41,14 +46,15 @@ const getAllStanaryProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error:any) {
-    res.status(404).json({
-      message: "Validation failed",
+    res.status(400).json({
+      message: "ValidationError",
       success: false,
       error:error.errors 
     })
   }
 };
 
+//--------find by single product--------------------
 const singleProductController = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -60,27 +66,27 @@ const singleProductController = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error:any) {
-    res.status(404).json({
-      message: "Validation failed",
+    res.status(400).json({
+      message: "ValidationError",
       success: false,
-      error:error.errors 
+      error:error.errors ,
+      stack:config.node_env === 'development' ? error.stack : undefined,
     })
   }
 };
 
+//----updating data in product----------
 const updateProductControllers = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const { price, quantity, updatedAt } = req.body;
+    //---qure by _id-----
     const filterProduct = { _id: productId };
     const updatateSet = {
       $set: {
-        price,
-        quantity,
-        updatedAt,
+       ...req.body
       },
     };
-
+    //-----update by response---------
     await stationeryProductData.updateOne(filterProduct, updatateSet);
     const findResult = await stationeryProductData.findById(filterProduct);
     res.status(200).json({
@@ -88,10 +94,18 @@ const updateProductControllers = async (req: Request, res: Response) => {
       status: true,
       data: findResult,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error:any) {
+    res.status(400).json({
+      message: "ValidationError",
+      success: false,
+      error:error.errors ,
+      stack:config.node_env === 'development' ? error.stack : undefined,
+
+    })
   }
 };
+
+// --------Delelat by product----------
 const deletProductControllers = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -104,10 +118,12 @@ const deletProductControllers = async (req: Request, res: Response) => {
       data: findResult ? findResult : {},
     });
   } catch (error:any) {
-    res.status(404).json({
-      message: "Validation failed",
+    res.status(400).json({
+      message: "ValidationError",
       success: false,
-      error:error.errors 
+      error:error.errors ,
+      stack:config.node_env === 'development' ? error.stack : undefined,
+
     })
   }
 };

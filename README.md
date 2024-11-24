@@ -36,3 +36,34 @@
 
 </ul>
 
+
+
+### Steps to Install
+
+<h3>1.Intilization<h3>
+
+```bash
+   npm init
+```
+ <h3>2.install node,mongoose,mongodb,typescript,express and setup eslintrc
+</h3>
+
+```bash
+npm i node mongodb mongoose express typescript
+```
+ <h3>setup .eslintrc
+</h3>
+
+## API Endpoints
+
+### Products
+
+- **Get All Products**: `GET /api/products`
+- **Add a Product**: `POST /api/products`
+- **Update a Product**: `PUT /api/products/:id`
+- **Delete a Product**: `DELETE /api/products/:id`
+
+### Orders
+
+- **Create an Order**: `POST /api/orders`
+- **Calculate Revenue**: `GET /api/orders/revenue`

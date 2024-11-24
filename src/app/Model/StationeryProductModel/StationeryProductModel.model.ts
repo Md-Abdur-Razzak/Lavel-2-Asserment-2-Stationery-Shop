@@ -6,7 +6,7 @@ const stationeryProductSchema = new Schema<StationeryProduct>(
       type: String, 
       required: [true, "Product name is required"], 
       trim: true, 
-      minlength: [3, "Product name must be at least 3 characters long"] 
+      minlength: [2, "Product name must be at least 2 characters long"] 
     },
     brand: { 
       type: String, 
