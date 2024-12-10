@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { StationeryProduct } from './StationeryProductModel.interface';
+import bcrypt from 'bcrypt'
+import config from '../../config';
 const stationeryProductSchema = new Schema<StationeryProduct>(
   {
     name: { 
@@ -7,6 +9,11 @@ const stationeryProductSchema = new Schema<StationeryProduct>(
       required: [true, "Product name is required"], 
       trim: true, 
       minlength: [2, "Product name must be at least 2 characters long"] 
+    },
+    password:{
+      type:String,
+      required:[true,"password must be required"],
+      trim:true
     },
     brand: { 
       type: String, 
@@ -43,6 +50,18 @@ const stationeryProductSchema = new Schema<StationeryProduct>(
   },
   { timestamps: true },
 );
+
+stationeryProductSchema.pre('save',async function(next){
+  const user = this
+  user.password = await bcrypt.hash(user.password,Number(config.bycript_pass))
+  next()
+  
+})
+
+stationeryProductSchema.post('save',function(doc,next){
+  doc.password = " "
+  next()
+})
 
 const stationeryProductData = model<StationeryProduct>(
   'stationeryProductData',

@@ -1,12 +1,14 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import stationeryProductData from './StationeryProductModel.model';
 import config from '../../config';
+import StationeryProductSchemazod from './Stonary.zod.validation';
 
 //---------Stonary Producr creat a Controller-------------
 const stonaryCreatController = async (req: Request, res: Response) => {
   try {
     const bodyData = req.body;
-    const result = await stationeryProductData.create(bodyData);
+    const useData = StationeryProductSchemazod.parse(bodyData)
+    const result = await stationeryProductData.create(useData);
     res.status(200).json({
       message: 'Product created successfully',
       success: true,
@@ -55,7 +57,7 @@ const getAllStanaryProduct = async (req: Request, res: Response) => {
 };
 
 //--------find by single product--------------------
-const singleProductController = async (req: Request, res: Response) => {
+const singleProductController = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const { productId } = req.params;
     const serch = { _id: productId };
@@ -66,14 +68,11 @@ const singleProductController = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error:any) {
-    res.status(400).json({
-      message: "ValidationError",
-      success: false,
-      error:error.errors ,
-      stack:config.node_env === 'development' ? error.stack : undefined,
-    })
+    next(error)
   }
 };
+
+ 
 
 //----updating data in product----------
 const updateProductControllers = async (req: Request, res: Response) => {

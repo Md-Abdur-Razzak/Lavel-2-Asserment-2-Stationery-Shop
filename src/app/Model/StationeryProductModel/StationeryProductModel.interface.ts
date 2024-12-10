@@ -7,6 +7,7 @@ type ProductCategory =
 
 export type StationeryProduct = {
   name: string;
+  password:string;
   brand: string;
   price: number;
   category: ProductCategory;

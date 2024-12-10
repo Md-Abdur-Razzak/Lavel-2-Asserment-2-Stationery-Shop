@@ -1,9 +1,13 @@
 import stationeryProductData from '../StationeryProductModel/StationeryProductModel.model';
-import { Request, Response } from 'express';
+import {  RequestHandler } from 'express';
 import OrderData from './order.model';
 import config from '../../config';
+
+const caseAscy = ()=>{
+  
+}
 //-------order getting the user---------
-const geithingOrder = async (req: Request, res: Response) => {
+const geithingOrder:RequestHandler = async (req, res) => {
   try {
     const { email, product, quantity, totalPrice } = req.body;
     //  ---------check the avaiabel Stanary Product
@@ -53,7 +57,7 @@ const geithingOrder = async (req: Request, res: Response) => {
   }
 };
 //----Totall Product calculteRevenue-------
-const calculteRevenue = async (req: Request, res: Response) => {
+const calculteRevenue:RequestHandler = async (req, res) => {
   try {
     const result = await OrderData.aggregate([
       //-----state 1=>find prodeuct data--
