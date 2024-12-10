@@ -1,11 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import stationeryProductData from './StationeryProductModel.model';
 import config from '../../config';
 import StationeryProductSchemazod from './Stonary.zod.validation';
+import caseAscync from '../../utilis/caseAscy';
 
 //---------Stonary Producr creat a Controller-------------
-const stonaryCreatController = async (req: Request, res: Response) => {
-  try {
+const stonaryCreatController = caseAscync(async (req: Request, res: Response) => {
+
     const bodyData = req.body;
     const useData = StationeryProductSchemazod.parse(bodyData)
     const result = await stationeryProductData.create(useData);
@@ -14,16 +15,9 @@ const stonaryCreatController = async (req: Request, res: Response) => {
       success: true,
       data: result,
     });
-  } catch (error:any) {
-    res.status(400).json({
-      message: "ValidationError",
-      success: false,
-      error:error.errors ,
-      stack:config.node_env === 'development' ? error.stack : undefined,
+ 
 
-    })
-  }
-};
+})
 
 //--------Get All Data Stonary Product and use search Qurey-----
 const getAllStanaryProduct = async (req: Request, res: Response) => {
